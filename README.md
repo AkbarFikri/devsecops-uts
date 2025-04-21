@@ -140,4 +140,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - University curriculum for DevSecOps course
 - Jenkins and GitHub documentation
-- OWASP security tools
+- OWASP security tool
