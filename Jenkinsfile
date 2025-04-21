@@ -57,7 +57,7 @@ pipeline {
             cleanWs()
         }
         failure {
-            emailext body: 'Build ${BUILD_NUMBER} failed!', subject: 'Build Failed', to: 'team@example.com'
+            emailext body: 'Build ${BUILD_NUMBER} failed!', subject: 'Build Failed', to: 'akbarfikriabdillah@gmail.com'
         }
     }
 }
