@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        go 'Go 1.24.1' // sesuai nama Go yang kamu set di Global Tools
+        go 'Go 1.24.1'
     }
 
     environment {
@@ -19,17 +19,13 @@ pipeline {
 
         stage('Unit Tests') {
             steps {
-                sh 'go version' // opsional untuk debugging
                 sh 'go test -v ./...'
             }
         }
 
         stage('Security Scan') {
             steps {
-                sh '''
-                    docker run --rm -v $(pwd):/zap/wrk owasp/zap2docker-stable \
-                    zap-baseline.py -t http://localhost:8080 -r report.html
-                '''
+                sh 'docker run --rm -v $(pwd):/zap/wrk owasp/zap2docker-stable zap-baseline.py -t http://localhost:8080 -r report.html'
                 archiveArtifacts 'report.html'
             }
         }
@@ -47,8 +43,8 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(
                     credentialsId: 'dockerhub',
-                    usernameVariable: 'DOCKER_USER',
-                    passwordVariable: 'DOCKER_PASS'
+                    usernameVariable: 'akbarfikri',
+                    passwordVariable: 'dckr_pat_FSbcAl0Tr_EPCh5-nZnYGl5nTmM'
                 )]) {
                     sh '''
                         echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
@@ -65,6 +61,7 @@ pipeline {
             cleanWs()
         }
         failure {
-            emailext body: "Build #${BUILD_NUMBER} failed for commit ${GIT_COMMIT}!",
-                     subject: "Build Failed - Jenkins",
-                     to: "akbarfikriabdillah@gmail.com"
+            emailext body: 'Build ${BUILD_NUMBER} failed!', subject: 'Build Failed', to: 'akbarfikriabdillah@gmail.com'
+        }
+    }
+}
