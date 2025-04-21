@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_CREDENTIALS = credentials('docker-hub-creds')
+        DOCKER_CREDENTIALS = credentials('dockerhub')
         GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
     }
 
@@ -38,9 +38,9 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'docker-hub-creds',
-                    usernameVariable: 'DOCKER_USER',
-                    passwordVariable: 'DOCKER_PASS'
+                    credentialsId: 'dockerhub',
+                    usernameVariable: 'akbarfikri',
+                    passwordVariable: 'dckr_pat_FSbcAl0Tr_EPCh5-nZnYGl5nTmM'
                 )]) {
                     sh '''
                         echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
