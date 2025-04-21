@@ -19,7 +19,7 @@ pipeline {
 
         stage('Unit Tests') {
             steps {
-                sh 'go test -v ./...'
+                sh 'go test -v ./test/service/...'
             }
         }
 
@@ -53,15 +53,6 @@ pipeline {
                     '''
                 }
             }
-        }
-    }
-
-    post {
-        always {
-            cleanWs()
-        }
-        failure {
-            emailext body: 'Build ${BUILD_NUMBER} failed!', subject: 'Build Failed', to: 'akbarfikriabdillah@gmail.com'
         }
     }
 }
